@@ -18,7 +18,7 @@ class BaseAction:
         raise NotImplementedError("Overwrite .run method before starting Flow")
     
     def validate_next_action(self, inputs:Any) -> str:
-        return "default"
+        return inputs.get("action", "default")
 
     def execute_action(self, shared:Dict[str, Any]) -> str:
         """Run action and return next_action_name"""
@@ -46,3 +46,12 @@ class Relation:
         self.next_action_name = next_action_name
     def __rshift__(self, next_action):
         return self.action.register_next_action(next_action, self.next_action_name)
+    
+class End(Action):
+    def __init__(self, message):
+        super().__init__()
+        self.message = message
+    def run(self, shared):
+        print(self.message)
+        shared["action"] = None
+        return shared
