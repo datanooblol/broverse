@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Any, Literal
+from typing import Dict, Any, Literal, Protocol
 from uuid import uuid4
 from broverse.utils import get_timestamp
 
@@ -10,3 +10,8 @@ class Context:
     metadata: Dict[str, Any] = field(default_factory=dict)
     type: Literal["document"] = "document"
     # created_at: str = field(default_factory=get_timestamp)
+
+class ModelInterface(Protocol):
+    def run(self, system_prompt:str, messages:list): pass
+    def UserMessage(self, text:str): pass
+    def AIMessage(self, text:str): pass

@@ -19,3 +19,6 @@ dev = [
     "tokenizers==0.19.1",
     "transformers>=4.44.2",
 ]
+
+[tool.setuptools.packages.find]
+include = ["broverse*"]

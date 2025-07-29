@@ -47,6 +47,17 @@ class Relation:
     def __rshift__(self, next_action):
         return self.action.register_next_action(next_action, self.next_action_name)
     
+class Start(Action):
+    def __init__(self, message, next_action):
+        super().__init__()
+        self.message = message
+        self.next_action = next_action
+        
+    def run(self, shared):
+        print(self.message)
+        shared['action'] = self.next_action
+        return shared
+
 class End(Action):
     def __init__(self, message):
         super().__init__()
