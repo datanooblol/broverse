@@ -1,13 +1,12 @@
 ```mermaid
 flowchart TD
-    Start -->|input| Input
-    Input -->|continue| SystemCommand
-    SystemCommand -->|continue| ToolSelector
+    Flow_1843592852304 -->|default| Input
+    Input -->|default| SystemCommand
+    SystemCommand -->|input| Input
+    SystemCommand -->|exit| End
+    SystemCommand -->|default| ToolSelector
     ToolSelector -->|tool calling| Tools
-    Tools -->|chat| Chat
-    Chat -->|continue| Input
-    Tools -->|continue| Input
+    Tools -->|default| Chat
+    Chat -->|default| Input
     ToolSelector -->|chat| Chat
-    SystemCommand -->|system_command| Tools
-    SystemCommand -->|end| End
 ```

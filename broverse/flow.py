@@ -3,7 +3,7 @@ from typing import Dict, Any
 import copy
 
 class Flow(BaseAction):
-    def __init__(self, start_action:Action, name:str=None):
+    def __init__(self, start_action:Action, name:str | None=None):
         super().__init__()
         self.start_action:Action = start_action
         self.name = name or f"Flow_{id(self)}"
@@ -14,7 +14,7 @@ class Flow(BaseAction):
         while current_action:
             action_name = current_action.__class__.__name__
             if action_name not in ["Start", "End"]:
-                print(f"Running action: {action_name}")
+                self.print(f"Running action: {action_name}")
             next_action_name = current_action.execute_action(shared)
             current_action = current_action.get_next_action(next_action_name)
         return next_action_name

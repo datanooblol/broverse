@@ -1,9 +1,15 @@
 from typing import Dict, Any
 import warnings
+from broverse.state import state
 
 class BaseAction:
-    def __init__(self, ):
+    def __init__(self):
         self.successors = {}
+        self.next_action = 'default'
+
+    def print(self, message):
+        if state.get('debug'):
+            print(message)
     
     def register_next_action(self, next_action, next_action_name:str) -> Any:
         if next_action_name in self.successors:
@@ -17,8 +23,8 @@ class BaseAction:
     def run(self, shared:Dict[str, Any]) -> Any:
         raise NotImplementedError("Overwrite .run method before starting Flow")
     
-    def validate_next_action(self, shared:Dict[str, Any]) -> str:
-        return 'default'
+    def validate_next_action(self, shared:dict) -> str:
+        return self.next_action
 
     def execute_action(self, shared:Dict[str, Any]) -> str:
         """Run action and return next_action_name"""
@@ -32,7 +38,7 @@ class BaseAction:
         raise TypeError(f"next_action_name must be str, got {type(next_action_name)} instead")
     
     def __rshift__(self, next_action):
-        self.register_next_action(next_action, "default")
+        return self.register_next_action(next_action, "default")
 
 
 class Action(BaseAction):

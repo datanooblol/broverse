@@ -12,6 +12,6 @@ class Context:
     # created_at: str = field(default_factory=get_timestamp)
 
 class ModelInterface(Protocol):
-    def run(self, system_prompt:str, messages:list): pass
-    def UserMessage(self, text:str): pass
-    def AIMessage(self, text:str): pass
+    def run(self, system_prompt:str, messages:list)->str: return "string"
+    def UserMessage(self, text:str, **kwargs)->str|None: pass
+    def AIMessage(self, text:str, **kwargs)->str|None: pass
