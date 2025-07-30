@@ -31,13 +31,13 @@ class Flow(BaseAction):
             
             for next_name, next_action in action.successors.items():
                 if hasattr(next_action, 'name'):
-                    next_action_name = next_action.name
+                    next_action_name = next_action.name.replace(" ", "_")
                 else:
                     next_action_name = next_action.__class__.__name__
                 lines.append(f"    {action_name} -->|{next_name}| {next_action_name}")
                 traverse(next_action, next_action_name)
         
-        start_name = self.name if hasattr(self, 'name') else self.start_action.__class__.__name__
+        start_name = self.name.replace(" ", "_") if hasattr(self, 'name') else self.start_action.__class__.__name__
         traverse(self.start_action, start_name)
         lines.append("```")
         return "\n".join(lines)
