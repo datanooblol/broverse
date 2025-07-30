@@ -1,0 +1,10 @@
+digraph {
+	node [fillcolor="#ffffff" shape=ellipse style=filled]
+	__start__
+	node [fillcolor="#eeeeff" shape=box style=filled]
+	myNode
+	node [fillcolor="#cfc0ff" shape=ellipse style=filled]
+	__end__
+	__start__ -> myNode
+	myNode -> __end__
+}

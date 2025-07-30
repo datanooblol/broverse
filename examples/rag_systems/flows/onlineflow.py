@@ -1,6 +1,6 @@
-from broverse.program import UserInput, Router, Chat, Farewell
-from broverse.bedrock import BedrockChat
-from broverse import End, Flow
+from broflow.program import UserInput, Router, Chat, Farewell
+from bedrock import BedrockChat
+from broflow import End, Flow
 
 chat_system_prompt = """\
 You are an AI assistant.

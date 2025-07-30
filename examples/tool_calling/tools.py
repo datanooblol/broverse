@@ -1,4 +1,4 @@
-from broverse.bedrock import BedrockChat
+from bedrock import BedrockChat
 
 def save_memo(user_input:str, **kwargs)->None:
     """

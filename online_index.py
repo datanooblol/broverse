@@ -1,5 +1,5 @@
 import os
-from broverse.flows.onlineflow import get_online_flow
+from broflow.flows.onlineflow import get_online_flow
 
 if __name__=='__main__':
     flow = get_online_flow()

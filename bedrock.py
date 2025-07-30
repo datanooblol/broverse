@@ -1,8 +1,7 @@
 from typing import Any, Dict, List
 import boto3
-from broverse.interface import ModelInterface
 
-class BedrockChat(ModelInterface):
+class BedrockChat:
     def __init__(
             self, 
             model_name: str = "us.meta.llama3-2-11b-instruct-v1:0",

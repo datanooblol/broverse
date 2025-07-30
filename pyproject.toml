@@ -5,6 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "broflow>=0.1.0",
+    "graphviz>=0.21",
+    "matplotlib>=3.10.3",
+    "mermaid-py>=0.8.0",
+    "networkx>=3.5",
+    "plotly>=6.2.0",
     "pyyaml>=6.0.2",
 ]
 

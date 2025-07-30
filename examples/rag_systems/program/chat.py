@@ -1,5 +1,5 @@
-from broverse import Action
-from broverse.bedrock import BedrockChat
+from broflow import Action
+from bedrock import BedrockChat
 class Chat(Action):
     def __init__(self, system_prompt, model:BedrockChat):
         super().__init__()

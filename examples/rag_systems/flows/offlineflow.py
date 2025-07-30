@@ -1,4 +1,4 @@
-from broverse.program import (
+from broflow.program import (
     Upload, 
     Register, 
     HTMLParsing, 
@@ -7,7 +7,7 @@ from broverse.program import (
     SaveVectorStore, 
     UpdateDocumentStatus
 )
-from broverse import End, Flow
+from broflow import End, Flow
 
 
 def get_offline_flow():

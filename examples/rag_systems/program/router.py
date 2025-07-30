@@ -1,5 +1,5 @@
-from broverse import Action
-from broverse.bedrock import BedrockChat
+from broflow import Action
+from bedrock import BedrockChat
 import yaml
 
 class Router(Action):

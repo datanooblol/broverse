@@ -1,5 +1,5 @@
-from broverse import Action
-from broverse.program.s3vector import save_to_s3_vectors
+from broflow import Action
+from broflow.program.s3vector import save_to_s3_vectors
 
 class SaveVectorStore(Action):
     def run(self, shared):
