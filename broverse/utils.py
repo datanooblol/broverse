@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-import yaml
 
 def get_timestamp():
     dt = datetime.now(timezone.utc)
