@@ -16,9 +16,13 @@ def show_messages(shared:dict):
     """List all chat messages"""
     print("-"*20)
     print("MESSAGES HISTORY")
-    for message in shared["messages"]:
-        role = message['role']
-        content = message['content'][0]['text']
-        print(f"\t- {role}: {content}")
+    messages = shared.get('messages', None)
+    if messages:
+        for message in messages:
+            role = message['role']
+            content = message['content'][0]['text']
+            print(f"\t- {role}: {content}")
+    else:
+        print("<EMPTY>")
     print("-"*20)
     return shared
