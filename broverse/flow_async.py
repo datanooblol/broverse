@@ -1,21 +1,22 @@
-from broverse.action import BaseAction, Action
+from broverse.action_async import BaseAsyncAction, AsyncAction
 from typing import Dict, Any
 import copy
+import asyncio
 
-class Flow(BaseAction):
-    def __init__(self, start_action:Action, name:str=None):
+class AsyncFlow(BaseAsyncAction):
+    def __init__(self, start_action: AsyncAction, name: str = None):
         super().__init__()
-        self.start_action:Action = start_action
-        self.name = name or f"Flow_{id(self)}"
+        self.start_action: AsyncAction = start_action
+        self.name = name or f"AsyncFlow_{id(self)}"
 
-    def run(self, shared:Dict[str, Any]):
+    async def run_async(self, shared: Dict[str, Any]):
         current_action = copy.copy(self.start_action)
         next_action_name = None
         while current_action:
             action_name = current_action.__class__.__name__
-            if action_name not in ["Start", "End"]:
-                print(f"Running action: {action_name}")
-            next_action_name = current_action.execute_action(shared)
+            if action_name not in ["AsyncStart", "AsyncEnd"]:
+                print(f"Running async action: {action_name}")
+            next_action_name = await current_action.execute_action(shared)
             current_action = current_action.get_next_action(next_action_name)
         return next_action_name
     
@@ -24,7 +25,7 @@ class Flow(BaseAction):
         lines = ["```mermaid", "flowchart TD"]
         visited = set()
         
-        def traverse(action:Action, action_name:str="start"):
+        def traverse(action: AsyncAction, action_name: str = "start"):
             if id(action) in visited:
                 return
             visited.add(id(action))
@@ -46,3 +47,16 @@ class Flow(BaseAction):
         """Save mermaid chart to .md file"""
         with open(filename, 'w') as f:
             f.write(self.to_mermaid())
+
+
+class AsyncParallelFlow(BaseAsyncAction):
+    def __init__(self, flows: list[AsyncFlow]):
+        super().__init__()
+        self.flows = flows
+
+    async def run_async(self, shared: Dict[str, Any]):
+        """Run multiple flows in parallel"""
+        results = await asyncio.gather(
+            *(flow.run_async(copy.deepcopy(shared)) for flow in self.flows)
+        )
+        return results
