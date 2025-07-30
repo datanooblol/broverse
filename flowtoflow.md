@@ -1,6 +1,6 @@
 ```mermaid
 flowchart TD
-    Flow_2256235439568 -->|default| Flow_2256234833104
-    Flow_2256234833104 -->|default| Flow_2256235435152
-    Flow_2256235435152 -->|default| End
+    master_flow -->|default| flow1
+    flow1 -->|default| flow2
+    flow2 -->|default| End
 ```
