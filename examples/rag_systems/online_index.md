@@ -1,9 +1,10 @@
 ```mermaid
 flowchart TD
-    Online_Flow -->|default| Router
+    Online_Flow -->|default| UserInput
+    UserInput -->|default| Router
     Router -->|default| Chat
     Chat -->|default| UserInput
     Router -->|farewell| Farewell
     Farewell -->|default| End
-    Online_Flow -->|farewell| Farewell
+    UserInput -->|farewell| Farewell
 ```

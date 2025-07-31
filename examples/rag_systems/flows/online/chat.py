@@ -1,5 +1,6 @@
 from broflow import Action
-from bedrock import BedrockChat
+from brollm import BedrockChat
+
 class Chat(Action):
     def __init__(self, system_prompt, model:BedrockChat):
         super().__init__()
@@ -14,5 +15,4 @@ class Chat(Action):
         ai_response = self.model.run(system_prompt=self.system_prompt, messages=shared["messages"])
         print("AI:", ai_response)
         shared["messages"].append(self.model.AIMessage(text=ai_response))
-        shared["action"] = "continue"
         return shared

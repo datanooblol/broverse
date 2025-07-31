@@ -1,5 +1,5 @@
 from broflow import Action
-from broflow.program.dynamodb import update_document_status
+from ..both.dynamodb import update_document_status
 
 class UpdateDocumentStatus(Action):
     def run(self, shared):
@@ -10,5 +10,4 @@ class UpdateDocumentStatus(Action):
             document_id=document_id, 
             new_status="READY"
         )
-        shared["action"] = "end"
         return shared

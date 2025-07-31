@@ -1,15 +1,15 @@
 from actions import Tools, ToolSelector, Input, SystemCommand, Chat
-from tools import save_memo, add_appointment
-from system_commands import clear, exit, show_messages
+from tools import add_appointment
+from system_commands import clear, exit, show_messages, save_memo
 from broflow import Start, End, Flow
 from broflow.tools import register_tools
-from bedrock import BedrockChat
+from brollm import BedrockChat
 from broflow import load_config
 
 def get_flow():
     load_config("examples/tool_calling/config.yaml")
-    system_commands = [clear, exit, show_messages]
-    system_tools = [save_memo, add_appointment]
+    system_commands = [clear, exit, show_messages, save_memo]
+    system_tools = [add_appointment]
     start_action = Start(message="Start Flow")
     input_action = Input()
     system_command_action = SystemCommand(

@@ -12,5 +12,4 @@ class HTMLParsing(Action):
         response = requests.get(f"https://r.jina.ai/{source}")
         markdown_str = clean_up_markdown_link(response.text)
         shared["raw_context"] = markdown_str
-        shared["action"] = "chunk"
         return shared

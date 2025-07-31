@@ -1,10 +1,7 @@
 from broflow import Action
 from uuid import uuid4
-from broflow.program.dynamodb import (
-    create_document, 
-    update_document_status, 
-    delete_document, 
-    get_user_documents, get_document
+from ..both.dynamodb import (
+    create_document
 )
 
 class Register(Action):
@@ -24,14 +21,14 @@ class Register(Action):
             status="CREATED",
         )
         document_type = shared.get("document_type", "")
-        shared["action"] = self.get_action(document_type=document_type)
+        self.next_action = self.get_action(document_type=document_type)
         return shared
 
     def get_action(self, document_type:str):
         if document_type=="url":
-            return "html parsing"
+            return "html_parsing"
         if document_type=="pdf":
-            return "pdf parsing"
+            return "pdf_parsing"
         if document_type=="docx":
-            return "docx parsing"
+            return "docx_parsing"
         raise ValueError(f"{document_type} is not implemented, try url, pdf, docx.")

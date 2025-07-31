@@ -1,5 +1,0 @@
-digraph {
-	Flow_2091207955792 -> Test1 [label=""]
-	Test1 -> Test2 [label=""]
-	Test2 -> End [label=""]
-}

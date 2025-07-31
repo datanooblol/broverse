@@ -10,7 +10,6 @@ class OfflineEmbedding(Action):
         contexts:list[Context] = shared.get("contexts", [])
         vectors = model.encode([context.context for context in contexts])
         shared["vectors"] = vectors
-        shared["action"] = "save vectors"
         return shared
     
 class OnlineEmbedding(Action):

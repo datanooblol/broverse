@@ -34,29 +34,6 @@ class SystemCommand(Action):
     def run(self, shared:dict):
         self.next_action = self.validate_system_command(shared)
         return shared
-# class SystemCommand(Action):
-#     def __init__(self, tools:dict):
-#         super().__init__()
-#         self.tools = tools
-    
-#     def validate_system_command(self, shared:dict):
-#         user_input = shared.get('user_input', 'no input')
-#         if user_input.startswith('/list'):
-#             print('Command List')
-#             for k, v in self.tools.items():
-#                 print(f"\t- /{k}: {v['definition']['description']}")
-#             return 'input'
-#         if user_input.startswith('/'):
-#             user_input = user_input.split(" ")[0]
-#             user_input = user_input.replace("/", "")
-#             tool = self.tools.get(user_input, {})
-#             func = tool.get('tool', {})
-#             return 'input' if func(shared) else 'exit'
-#         return 'default'
-
-#     def run(self, shared):
-#         self.next_action = self.validate_system_command(shared)
-#         return shared
 
 class ToolSelector(Action):
     def __init__(self, system_prompt:str, model:ModelInterface, tools:List[Callable]):
@@ -107,6 +84,9 @@ class Tools(Action):
                     messages=[self.model.UserMessage(text=f"{prompt} {errors}")]
                 )
                 parameters = parse_codeblock_to_dict(parameters, codeblock='yaml')
+                is_valid, error = validate_parameters(parameters, tool)
+                if error:
+                    raise Exception(error)
                 response = tool(**parameters)
                 return response
             except Exception as e:

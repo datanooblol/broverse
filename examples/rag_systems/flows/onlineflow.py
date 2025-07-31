@@ -1,54 +1,34 @@
-from broflow.program import UserInput, Router, Chat, Farewell
-from bedrock import BedrockChat
-from broflow import End, Flow
-
-chat_system_prompt = """\
-You are an AI assistant.
-""".strip()
-
-farewell_system_prompt = """\
-Your job is to farewell a user.
-""".strip()
-
-router_system_prompt = """\
-Classify a user's intent based on the input messages. 
-Intent options are:
-1. continue if nothing goes wrong
-2. farewell if a user's message indicate that he or she wants to go somewhere
-
-Return your response in codeblock with this following yaml format:
-```yaml
-action: either continue or farewell
-```
-
-IMPORTANT: Make sure to:
-1. Use proper indentation (4 spaces) for all multi-line fields
-2. Use the | character for multi-line text fields
-3. Keep single-line fields without the | character
-""".strip()
+from .online.chat import Chat
+from .online.farewell import Farewell
+from .online.router import Router
+from .online.user_input import UserInput
+from brollm import BedrockChat
+from broflow import Start, End, Flow
+from broflow import load_prompt_yaml
+from broflow import load_config
 
 def get_online_flow():
+    prompt_dir = 'examples/rag_systems/prompts'
+    load_config('examples/rag_systems/config.yml')
+    start_action = Start(message="Start of Online Flow")
     user_input_action = UserInput()
     router_action = Router(
-        system_prompt=router_system_prompt,
+        system_prompt=load_prompt_yaml(f'{prompt_dir}/router.yml'),
         model=BedrockChat()
     )
     chat_action = Chat(
-        system_prompt=chat_system_prompt,
+        system_prompt=load_prompt_yaml(f'{prompt_dir}/chat.yml'),
         model=BedrockChat()
     )
-    farewell = Farewell(
-        system_prompt=farewell_system_prompt,
+    farewell_action = Farewell(
+        system_prompt=load_prompt_yaml(f'{prompt_dir}/farewell.yml'),
         model=BedrockChat()
     )
-    end = End(message="End of Online Flow")
+    end_action = End(message="End of Online Flow")
 
-    user_input_action - "router" >> router_action
-    router_action - "chat" >> chat_action
-    user_input_action - "farewell" >> farewell
-    router_action - "farewell" >> farewell
-    chat_action - "continue" >> user_input_action
-    farewell - "end" >> end
+    start_action >> user_input_action >> router_action >> chat_action >> user_input_action
+    user_input_action -"farewell" >> farewell_action
+    router_action - "farewell" >> farewell_action >> end_action
     
-    flow = Flow(start_action=user_input_action)
+    flow = Flow(start_action=start_action, name="Online Flow")
     return flow

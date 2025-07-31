@@ -1,23 +1,3 @@
-from bedrock import BedrockChat
-
-def save_memo(user_input:str, **kwargs)->None:
-    """
-    <|start|>
-        Use this tool when user's intent is about to save this and discuss it later on. 
-        Do not confuse when user asks about the memo because it's not about saving.
-    <|end|>
-    Args:
-        user_input (str) : the whole user input
-    Return:
-        str : a short summary of what user says
-    """
-    model = BedrockChat()
-    summary = model.run(system_prompt="Summarize what user says as comprehensive as possible", messages=[model.UserMessage(text=user_input)])
-    with open("examples/tool_calling/prompts/memo.md", "w") as f:
-        f.write(summary)
-    print(f"memo is saved: {summary}")
-    return None
-
 def add_appointment(event_name:str, year:int, month:int, day:int, **kwargs)->str:
     """
     <|start|>
