@@ -2,8 +2,8 @@ import boto3
 from datetime import datetime, timezone
 import os
 
-DYNAMODB_REGION_NAME = os.getenv("DYNAMODB_REGION_NAME", "ap-southeast-1")
-DOCUMENT_TABLE = os.getenv("DOCUMENT_TABLE", "test-broverse")
+DYNAMODB_REGION_NAME = os.getenv("DYNAMODB_REGION_NAME", None)
+DOCUMENT_TABLE = os.getenv("DOCUMENT_TABLE", None)
 dynamodb = boto3.resource('dynamodb', region_name=DYNAMODB_REGION_NAME)
 table = dynamodb.Table(DOCUMENT_TABLE)
 

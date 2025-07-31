@@ -2,7 +2,7 @@
 flowchart TD
     Offline_Index -->|default| Upload
     Upload -->|default| Register
-    Register -->|default| HTMLParsing
+    Register -->|html_parsing| HTMLParsing
     HTMLParsing -->|default| Chunk
     Chunk -->|default| OfflineEmbedding
     OfflineEmbedding -->|default| SaveVectorStore

@@ -6,5 +6,4 @@ class SaveVectorStore(Action):
         contexts = shared.get("contexts")
         vectors = shared.get("vectors")
         save_to_s3_vectors(contexts=contexts, vectors=vectors)
-        # shared["action"] = "update status"
         return shared

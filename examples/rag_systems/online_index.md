@@ -7,4 +7,7 @@ flowchart TD
     Router -->|farewell| Farewell
     Farewell -->|default| End
     UserInput -->|farewell| Farewell
+    UserInput -->|rag| OnlineEmbedding
+    OnlineEmbedding -->|default| Retrieve
+    Retrieve -->|default| Chat
 ```

@@ -2,6 +2,8 @@ from .online.chat import Chat
 from .online.farewell import Farewell
 from .online.router import Router
 from .online.user_input import UserInput
+from .online.retrieve import Retrieve
+from .both.embedding import OnlineEmbedding
 from brollm import BedrockChat
 from broflow import Start, End, Flow
 from broflow import load_prompt_yaml
@@ -24,10 +26,13 @@ def get_online_flow():
         system_prompt=load_prompt_yaml(f'{prompt_dir}/farewell.yml'),
         model=BedrockChat()
     )
+    embedding_action = OnlineEmbedding()
+    retrieve_action = Retrieve()
     end_action = End(message="End of Online Flow")
 
     start_action >> user_input_action >> router_action >> chat_action >> user_input_action
     user_input_action -"farewell" >> farewell_action
+    user_input_action - "rag" >> embedding_action >> retrieve_action >> chat_action
     router_action - "farewell" >> farewell_action >> end_action
     
     flow = Flow(start_action=start_action, name="Online Flow")

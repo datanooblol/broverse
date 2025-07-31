@@ -21,15 +21,7 @@ def get_offline_flow():
     end_action = End(message="End of OfflineIndex Flow")
     
     start_action >> upload_action >> register_action
-    register_action - "" >> html_parsing >> chunk_action
+    register_action - "html_parsing" >> html_parsing >> chunk_action
     chunk_action >> embedding_action >> save_vector_store_action >> update_document_status_action >> end_action
-    # upload_action - "register" >> register_action
-    # register_action - "html parsing" >> html_parsing
-    # html_parsing - "chunk" >> chunk_action
-    # chunk_action - "embedding" >> embedding_action
-    # embedding_action - "save vectors" >> save_vector_store_action
-    # save_vector_store_action - "update status" >> update_document_status_action
-    # update_document_status_action - "end" >> end_action
-
     flow = Flow(start_action=start_action, name="Offline Index")
     return flow

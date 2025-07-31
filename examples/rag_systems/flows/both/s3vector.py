@@ -2,10 +2,12 @@ import boto3
 from uuid import uuid4
 from broflow.interface import Context
 import os
+from typing import List
+import numpy as np
 
 s3vectors = boto3.client('s3vectors', region_name='us-west-2')
-VECTOR_BUCKET = os.getenv("VECTOR_BUCKET", "test-broverse-20250729")
-VECTOR_INDEX = os.getenv("VECTOR_INDEX", "test-url-index")
+VECTOR_BUCKET = os.getenv("VECTOR_BUCKET", None)
+VECTOR_INDEX = os.getenv("VECTOR_INDEX", None)
 
 def save_to_s3_vectors(contexts, vectors):
     embedding_vectors = []
@@ -28,7 +30,7 @@ def save_to_s3_vectors(contexts, vectors):
     )
     return response
 
-def s3_to_contexts(response):
+def s3_to_contexts(response)->List[Context]:
     contexts = []
     for res in response:
         metadata = res.get("metadata")
@@ -38,11 +40,13 @@ def s3_to_contexts(response):
         )
     return contexts
 
-def query_from_s3_vectors(vector, filter=None):
+def query_from_s3_vectors(vector:list | np.ndarray, filter=None, topK=5)->List[Context]:
+    if isinstance(vector, np.ndarray):
+        vector = vector.tolist()
     query = s3vectors.query_vectors(vectorBucketName=VECTOR_BUCKET,
         indexName=VECTOR_INDEX,
         queryVector={"float32":vector},
-        topK=10, 
+        topK=topK, 
         filter=filter,
         returnDistance=True,
         returnMetadata=True
@@ -50,3 +54,11 @@ def query_from_s3_vectors(vector, filter=None):
     results = query["vectors"]
     contexts = s3_to_contexts(results)
     return contexts
+
+def delete_index():
+    client = boto3.client('s3vectors', region_name='us-west-2')
+    response = client.delete_index(
+        vectorBucketName=VECTOR_BUCKET,
+        indexName=VECTOR_INDEX,
+    )
+    return response

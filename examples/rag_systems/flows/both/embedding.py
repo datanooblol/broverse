@@ -3,6 +3,7 @@ from broflow.interface import Context
 
 from sentence_transformers import SentenceTransformer
 
+# the embedding dimension: 384
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 class OfflineEmbedding(Action):
@@ -14,7 +15,7 @@ class OfflineEmbedding(Action):
     
 class OnlineEmbedding(Action):
     def run(self, shared):
-        query = shared.get("query", "")
+        query = shared.get("user_input", "")
         vector = model.encode([query])[0]
-        shared["query_vector"] = vector
+        shared["vector"] = vector
         return shared
