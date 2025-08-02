@@ -2,7 +2,7 @@ from actions import Tools, ToolSelector, Input, SystemCommand, Chat
 from tools import add_appointment
 from system_commands import clear, exit, show_messages, save_memo
 from broflow import Start, End, Flow
-from broflow.tools import register_tools
+from broprompt import register_tools
 from brollm import BedrockChat
 from broflow import load_config
 

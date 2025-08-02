@@ -6,8 +6,12 @@ from .online.retrieve import Retrieve
 from .both.embedding import OnlineEmbedding
 from brollm import BedrockChat
 from broflow import Start, End, Flow
-from broflow import load_prompt_yaml
 from broflow import load_config
+
+def load_prompt_yaml(file_path):
+    with open(file_path, 'r') as f:
+        data = f.read()
+    return data
 
 def get_online_flow():
     prompt_dir = 'examples/rag_systems/prompts'

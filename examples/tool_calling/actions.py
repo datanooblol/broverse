@@ -1,6 +1,6 @@
-from broflow import Action, ModelInterface
-import yaml, json
-from broflow.tools import (
+from broflow import Action
+from brollm import BaseLLM
+from broprompt import (
     generate_extract_parameters_prompt, 
     validate_parameters, 
     list_tools,
@@ -36,7 +36,7 @@ class SystemCommand(Action):
         return shared
 
 class ToolSelector(Action):
-    def __init__(self, system_prompt:str, model:ModelInterface, tools:List[Callable]):
+    def __init__(self, system_prompt:str, model:BaseLLM, tools:List[Callable]):
         super().__init__()
         self.system_prompt = system_prompt
         self.model = model
@@ -69,7 +69,7 @@ class ToolSelector(Action):
         return shared
 
 class Tools(Action):
-    def __init__(self, model:ModelInterface, tools:List[Callable]):
+    def __init__(self, model:BaseLLM, tools:List[Callable]):
         super().__init__()
         self.model = model
         self.tools = tools
@@ -105,7 +105,7 @@ class Tools(Action):
         return shared
 
 class Chat(Action):
-    def __init__(self, system_prompt, model:ModelInterface):
+    def __init__(self, system_prompt, model:BaseLLM):
         super().__init__()
         self.system_prompt = system_prompt
         self.model = model

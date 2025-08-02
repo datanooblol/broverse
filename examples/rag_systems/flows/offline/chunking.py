@@ -1,6 +1,6 @@
 from broflow.action import Action
 from typing import List
-from broflow.interface import Context
+from broprompt import Context
 
 def split_overlap(contexts:List[Context], max_tokens:int=500, overlap:int=150) -> List[Context]:
     new_contexts:List[Context] = []

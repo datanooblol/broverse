@@ -1,6 +1,6 @@
 import boto3
 from uuid import uuid4
-from broflow.interface import Context
+from broprompt import Context
 import os
 from typing import List
 import numpy as np

@@ -1,5 +1,5 @@
 from broflow import Action
-from broflow.interface import Context
+from broprompt import Context
 
 from sentence_transformers import SentenceTransformer
 

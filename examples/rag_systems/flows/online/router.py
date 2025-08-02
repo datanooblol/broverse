@@ -1,5 +1,5 @@
 from broflow import Action
-from broflow import parse_codeblock_to_dict
+from broprompt import parse_codeblock_to_dict
 from brollm import BedrockChat
 
 class Router(Action):
